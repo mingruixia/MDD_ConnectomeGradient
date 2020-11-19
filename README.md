@@ -7,19 +7,31 @@ The project is structured into five parts corresponding to the major analyses in
 
 ## Toolboxes
 All custom code and toolboxes were tested on a 64-bit Windows 10 PC (i7-6700k, 64GB RAM) with MATLAB R2019b, including
+
 SPM12, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
+
 SeeCAT, a custom developed toolbox, available in this project
+
 MICA diffusion_map_embedding, ver. 20180921, https://github.com/MICA-MNI/micaopen/tree/master/diffusion_map_embedding
+
 ComBatHarmonization, ver. 20180620, https://github.com/Jfortin1/ComBatHarmonization
+
 AHBAprocessing, ver. 20181025, https://github.com/BMHLab/AHBAprocessing
+
 Scripts from Whitaker et al. PNAS 2016, https://github.com/KirstieJane/NSPN_WhitakerVertes_PNAS2016
+
 libsvm, ver. 3.24, https://www.csie.ntu.edu.tw/~cjlin/libsvm/
+
 Scripts from Cui et al. Neuroimage 2018, https://github.com/ZaixuCui/Pattern_Regression_Matlab
+
 Brainnet Viewer, ver. 1.7, http://www.nitrc.org/projects/bnv/
 
 Other softwares and web-based tools include
+
 IBM SPSS Statistics 21, commercial software, https://www.ibm.com/products/spss-statistics
+
 NeuroSynth, web-based decoding functions were used, https://neurosynth.org/
+
 Gorilla, http://cbl-gorilla.cs.technion.ac.il/
 
 We thank the authors and developers for providing these wonderful tools for data analysis. 
