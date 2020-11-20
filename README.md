@@ -10,7 +10,7 @@ All custom code and toolboxes were tested on a 64-bit Windows 10 PC (i7-6700k, 6
 
 SPM12, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 
-SeeCAT, a custom developed toolbox. https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT
+SeeCAT, a custom developed toolbox, https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT
 
 MICA diffusion_map_embedding, ver. 20180921, https://github.com/MICA-MNI/micaopen/tree/master/diffusion_map_embedding
 
