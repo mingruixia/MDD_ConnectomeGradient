@@ -5,7 +5,8 @@ list(1:2) = [];
 parfor i = 1:length(list)    
     cd(['D:\Data\DIDA-MDD\gradient_analysis\analysis\FunImgARWSDCFB\',list(i).name]);
     filename = dir('*.nii');    
-    x_reslice('D:\Data\DIDA-MDD\gradient_analysis\analysis\Reslice_group_mask.nii',filename.name,4);mkdir(['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);
+    x_reslice('D:\Data\DIDA-MDD\gradient_analysis\analysis\Reslice_group_mask.nii',filename.name,4);
+    mkdir(['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);
     movefile('r*.nii',['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);   
 end
 
