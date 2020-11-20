@@ -60,6 +60,7 @@ This part was mainly based on our custom script for MATLAB with some functions f
 6. Calculate gradient range and spatial variance.
 7. Generate nifti files for each gradient map.
 8. Calculate displacement of each voxel in gradient space for each MDD. 
+
 Due to the limited upload data size of Github, we cannot provide all data in this analysis. The preprocessed data of one subject was provided for testing matrix generation and gradient calculation (In the folder of previous step). We also provided the global measures (i.e., explained variance, gradient range, and spatial variance, GlobalMetrics.sav), final gradient maps of all subjects, and the displacement maps of patients with MDD (check DownloadForGradientMaps.txt for download link). The statistical analysis for global metrics was done by using SPSS and that for gradient maps was done by SeeCAT (call SeeCAT_Stat and SeeCAT_Viewer in MATLAB). Both of these tools are GUI-based. 
 
 ## Cognitive terms
