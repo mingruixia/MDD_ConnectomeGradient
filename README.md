@@ -41,7 +41,7 @@ We thank the authors and developers for providing these wonderful tools for data
 Please use “add path” in MATLAB to add toolboxes and scripts. This procedure is not time consuming. 
 
 ## Demo
-We fully suggest to read the manual of each toolbox for detailed instruction of how to use them. Here, we provide brief description of data analysis in our paper. 
+We fully suggest to read the manual of each toolbox for detailed instruction of how to use them. Here, we provide a brief description of data analysis in our paper. 
 
 ### Data preprocessing
 We use SeeCAT and SPM to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analysis. 
