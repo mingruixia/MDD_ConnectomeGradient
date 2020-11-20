@@ -43,7 +43,7 @@ Please use the “add path” method in MATLAB to add toolboxes and scripts. Thi
 We strongly suggest reading the manual for each toolbox for detailed instructions on how to use them. Here, we provide a brief description of the data analysis in our paper. 
 
 ### Data preprocessing
-We used SeeCAT and SPM to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analyses. 
+We used SeeCAT (https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT) and SPM (https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analyses. 
 1. Arrange image files to have the same structure in the demo folder (FunImg for initial Nifti files).
 2. After installing SeeCAT and SPM in MATLAB, call the SeeCAT data preprocessing module by typing SeeCAT_PrepfMRI in the MATLAB command window.
 3. Locate the data path and start folder, select preprocess steps and click the run button in the GUI.
