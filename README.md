@@ -1,16 +1,16 @@
 # MDD_ConnectomeGradient
-This repository provides core code and relevant toolboxes used for data analysis in the paper "Large-scale Gradient Dysfunction of the Functional Connectome in Major Depression" by Xia et al. 2020
+This repository provides core code and relevant toolboxes for data analysis in the article entitled "Large-scale Gradient Dysfunction of the Functional Connectome in Major Depression" by Xia et al. 2020
 
 ## Overview
 Content includes standalone software, source code, and demo data. Due to the large size of the analyzed data, we can only provide a small portion of the data needed for validating the code. 
-The project is structured into five parts corresponding to the major analyses in the paper, including fMRI data preprocessing, gradient analysis, cognitive terms, gene expression association analysis, and symptom prediction analysis. 
+The project is structured into five parts corresponding to the major analyses in the article, including fMRI data preprocessing, gradient analysis, cognitive terms, gene expression association analysis, and symptom prediction analysis. 
 
 ## Toolboxes
-All custom code and toolboxes were tested on a 64-bit Windows 10 PC (i7-6700k, 64GB RAM) with MATLAB R2019b, including the following code and toolbox:
+All custom code and toolboxes were tested on a 64-bit Windows 10 PC (i7-6700k, 64GB RAM) with MATLAB R2019b, which were included below. 
 
 SPM12, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 
-SeeCAT, a custom developed toolbox, available in this project
+SeeCAT, a custom developed toolbox. https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT
 
 MICA diffusion_map_embedding, ver. 20180921, https://github.com/MICA-MNI/micaopen/tree/master/diffusion_map_embedding
 
