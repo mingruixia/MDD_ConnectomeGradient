@@ -6,7 +6,7 @@ parfor i = 1:length(list)
     cd(['D:\Data\DIDA-MDD\gradient_analysis\analysis\FunImgARWSDCFB\',list(i).name]);
     filename = dir('*.nii');    
     x_reslice('D:\Data\DIDA-MDD\gradient_analysis\analysis\Reslice_group_mask.nii',filename.name,4);
-    mkdir(['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);
+	mkdir(['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);
     movefile('r*.nii',['D:\Data\DIDA-MDD\gradient_analysis\analysis\Resliced3\',list(i).name]);   
 end
 
@@ -125,53 +125,31 @@ for i = 1:3
     end
 end
 
+%% Generate group mean gradient maps
+for i = 1:3
+    x_mean_image('['D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad0',num2str(i),'\HC'],['mean_hc_g',num2str(i),'.nii']);
+    x_mean_image('['D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad0',num2str(i),'\MDD'],['mean_mdd_g',num2str(i),'.nii']);
+end
 
-%% generate displacement map for each MDD
-hdr_mask = spm_vol('D:\Data\DIDA-MDD\gradient_analysis\code_test\Reslice_group_mask.nii');
+%% Examine spatial correlation between the group-averaged maps of hc and mdd
+% run surrogate_spatial.py to generate surrogate maps for hc
+hdr_mask = spm_vol('D:\Data\DIDA-MDD\gradient_analysis\analysis\Reslice_group_mask.nii');
 vol_mask = spm_read_vols(hdr_mask);
 ind = find(vol_mask);
-cd('D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad01')
-hdr_hc = spm_vol('mean_hc.nii');
-vol_hc = spm_read_vols(hdr_hc);
-g1_hc = vol_hc(ind);
-
-cd('D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad02')
-hdr_hc = spm_vol('mean_hc.nii');
-vol_hc = spm_read_vols(hdr_hc);
-g2_hc = vol_hc(ind);
-
-cd('D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad03')
-hdr_hc = spm_vol('mean_hc.nii');
-vol_hc = spm_read_vols(hdr_hc);
-g3_hc = vol_hc(ind);
-
-coord_hc = [g1_hc,g2_hc,g3_hc];
-cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad01\MDD
-list1 = dir('*.nii');
-cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad02\MDD
-list2 = dir('*.nii');
-cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad03\MDD
-list3 = dir('*.nii');
-for i = 1:length(list1)
-    cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad01\MDD
-    hdr_mdd = spm_vol(list1(i).name);
+real_phi = zeros(3,1);
+p = zeros(3,1);
+for i = 1:3
+    hdr_hc = spm_vol(['mean_hc_g',num2str(i),'.nii']);
+    vol_hc = spm_read_vols(hdr_hc);
+    hdr_mdd = spm_vol(['mean_mdd_g',num2str(i),'.nii']);
     vol_mdd = spm_read_vols(hdr_mdd);
-    g1_mdd = vol_mdd(ind);
-    cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad02\MDD
-    hdr_mdd = spm_vol(list2(i).name);
-    vol_mdd = spm_read_vols(hdr_mdd);
-    g2_mdd = vol_mdd(ind);
-    cd D:\Data\DIDA-MDD\gradient_analysis\analysis\Corrected_emb\grad03\MDD
-    hdr_mdd = spm_vol(list3(i).name);
-    vol_mdd = spm_read_vols(hdr_mdd);
-    g3_mdd = vol_mdd(ind);
-    coord_mdd = [g1_mdd,g2_mdd,g3_mdd];
-    dist_2group = sqrt(sum(abs(coord_hc - coord_mdd).^2,2));
-    
-    hdr = hdr_hc;
-    hdr.fname = ['dis_',list1(i).name(5:end)];
-    vol = vol_hc;
-    vol(ind) = dist_2group;
-    cd D:\Data\DIDA-MDD\gradient_analysis\analysis\dis_map
-    spm_write_vol(hdr,vol);
+    g_hc = vol_hc(ind);
+    g_mdd = vol_mdd(ind);
+    real_phi(i) = corr(g_hc,g_mdd,'type','spearman');
+    load(['surrogate_maps_hc_g',num2str(i),'.mat']);
+    surr_phi = corr(surrogate_maps',g_mdd,'type','spearman');
+    p(i) = length(find(surr_phi>real_phi(i)))/10000;
 end
+
+
+
