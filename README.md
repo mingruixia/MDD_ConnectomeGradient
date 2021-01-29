@@ -1,16 +1,16 @@
 # MDD_ConnectomeGradient
-This repository provides core code and relevant toolboxes for data analysis in the article entitled "Large-scale Gradient Dysfunction of the Functional Connectome in Major Depression" by Xia et al. 2020
+This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2020
 
 ## Overview
 Content includes standalone software, source code, and demo data. Due to the large size of the analyzed data, we can only provide a small portion of the data needed for validating the code. 
-The project is structured into five parts corresponding to the major analyses in the article, including fMRI data preprocessing, gradient analysis, cognitive terms, gene expression association analysis, and symptom prediction analysis. 
+The project is structured into four parts corresponding to the major analyses in the article, including fMRI data preprocessing, gradient analysis, cognitive terms, gene expression association analysis. 
 
 ## Toolboxes
-All custom code and toolboxes were tested on a 64-bit Windows 10 PC (i7-6700k, 64GB RAM) with MATLAB R2019b, which were included below. 
+All custom code and toolboxes were tested on two 64-bit Windows 10 PCs (PC1: Intel Core i7-6700k, 64GB RAM; PC2 AMD Ryzen Threadripper 3970x, 256G RAM) with MATLAB R2019b, which were included below. 
 
 SPM12, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 
-SeeCAT, a custom developed toolbox, https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT
+SeeCAT, a custom developed toolbox. https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT
 
 MICA diffusion_map_embedding, ver. 20180921, https://github.com/MICA-MNI/micaopen/tree/master/diffusion_map_embedding
 
@@ -19,10 +19,6 @@ ComBatHarmonization, ver. 20180620, https://github.com/Jfortin1/ComBatHarmonizat
 AHBAprocessing, ver. 20181025, https://github.com/BMHLab/AHBAprocessing
 
 Scripts from Whitaker et al. PNAS 2016, https://github.com/KirstieJane/NSPN_WhitakerVertes_PNAS2016
-
-libsvm, ver. 3.24, https://www.csie.ntu.edu.tw/~cjlin/libsvm/
-
-Scripts from Cui et al. Neuroimage 2018, https://github.com/ZaixuCui/Pattern_Regression_Matlab
 
 Brainnet Viewer, ver. 1.7, http://www.nitrc.org/projects/bnv/
 
@@ -34,6 +30,8 @@ NeuroSynth, web-based decoding functions were used, https://neurosynth.org/
 
 Gorilla, http://cbl-gorilla.cs.technion.ac.il/
 
+BrainSMASH, https://brainsmash.readthedocs.io/en/latest/index.html
+
 We thank the authors and developers for providing these wonderful tools for data analysis. 
 
 ## Installation guide
@@ -43,7 +41,7 @@ Please use the “add path” method in MATLAB to add toolboxes and scripts. Thi
 We strongly suggest reading the manual for each toolbox for detailed instructions on how to use them. Here, we provide a brief description of the data analysis in our paper. 
 
 ### Data preprocessing
-We used SeeCAT (https://github.com/mingruixia/MDD_ConnectomeGradient/tree/main/0.Preprocessing/SeeCAT) and SPM (https://www.fil.ion.ucl.ac.uk/spm/software/spm12/) to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analyses. 
+We used SeeCAT and SPM to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analyses. 
 1. Arrange image files to have the same structure in the demo folder (FunImg for initial Nifti files).
 2. After installing SeeCAT and SPM in MATLAB, call the SeeCAT data preprocessing module by typing SeeCAT_PrepfMRI in the MATLAB command window.
 3. Locate the data path and start folder, select preprocess steps and click the run button in the GUI.
@@ -58,7 +56,8 @@ This part was primarily carried out using our custom script for MATLAB with some
 5. Correct the center effect of the gradient score by using ComBatHarmonization.
 6. Calculate gradient range and spatial variance.
 7. Generate Nifti files for each gradient map.
-8. Calculate the displacement of each voxel in gradient space for each MDD. 
+8. Generate group-averaged gradient maps for HC and MDD
+9. Estimate spatial correlation of the group-averaged map between HC and MDD for each gradient.
 
 Due to the limited upload data size available on Github, we cannot provide all the data in this analysis. The preprocessed data of one subject was provided for test matrix generation and gradient calculation (In the folder of the previous step). We also provided the global measures (i.e., explained variance, gradient range, and spatial variance, GlobalMetrics.sav), final gradient maps of all subjects, and the displacement maps of patients with MDD (check DownloadForGradientMaps.txt for download link). The statistical analysis for global metrics was done by using SPSS and that for gradient maps was done by SeeCAT (call SeeCAT_Stat and SeeCAT_Viewer in MATLAB), respectively. Both tools are GUI-based. 
 
@@ -70,15 +69,12 @@ We used Neurosynth (https://neurosynth.org/) to assess the topic terms associate
 4. The cognitive terms were visualized on a word-cloud plot with the font size scaled according to their correlation with corresponding meta-analytic maps generated by Neurosynth.
 
 ## Gene expression association
-In this analysis, we used the revised script from Whitaker et al. PNAS 2016, (https://github.com/KirstieJane/NSPN_WhitakerVertes_PNAS2016). The main script is named pls_gradient_geneEx.m and see the code in this file for more details. 
+In this analysis, we used the revised script from Whitaker et al. PNAS 2016, (https://github.com/KirstieJane/NSPN_WhitakerVertes_PNAS2016). The main script is named gene_PLS.m and see the code in this file for more details. 
 1. The Gene expression data from the Allen Institute for Brain Science was first preprocessed by using AHBAprocessing (https://github.com/BMHLab/AHBAprocessing), obtaining the gene expression profile for the Glasser-360 atlas (100DS360scaledRobustSigmoidNSGRNAseqQC1LRcortex_ROI_NOdistCorrEuclidean.mat, 4mm_Glasser360.nii).
-2. Perform PLS analysis to examine the association between the between-group Z-maps (Z-maps.zip) of the connectome gradients and gene expression profiles. 
-3. The weights of PLS components were determined by the bootstrap method (PLS_bootstrap_Jin.m) and their significance was determined by permutation test (PLS_calculate_stats_Jin). 
-4. Both the descending order and ascending order of PLS weighted genes were submitted to GOrilla (http://cbl-gorilla.cs.technion.ac.il/) for enrichment analysis. See the GOrilla website for instructions. 
+2. Perform PLS analysis to examine the association between the between-group Z-map (Z-maps.zip) of the connectome gradients and gene expression profiles. 
+3. Significance of the PLS component was determined by permutation test in which the spatial autocorrelations were corrected by generative modeling (gen_surrogate_map_for g1z.py)
+4. The weights of PLS components were determined by the bootstrap method . 
+5. Both the descending order and ascending order of PLS weighted genes were submitted to GOrilla (http://cbl-gorilla.cs.technion.ac.il/) for enrichment analysis. See the GOrilla website for instructions. 
 
-## SVR-based symptom prediction
-We used support vector regression (SVR) and 10-fold cross-validation (where the predictive model was repeatedly trained on 9 folds of the data and tested on the 10th fold) to examine whether the connectome gradient features were able to predict depressive symptoms (Hamilton Depression Rating Scale, HDRS) in the patients. This was done by calling scripts from Cui et al. Neuroimage 2018 (https://github.com/ZaixuCui/Pattern_Regression_Matlab) and libsvm 3.24 (https://www.csie.ntu.edu.tw/~cjlin/libsvm/). The displacement in the gradient space of the clusters with MDD-related alterations as features, see Script.m for details. The demo data included the extracted features (SVR_Subjects_Data.mat), the HDRS (SVR_Subjects_Scores.mat), and the covariates (SVR_Covariates.mat).
- 
-## Reproducibility
-We estimated the reproducibility of the identified MDD-related gradient alterations by considering several potential confounding factors. First, we used a leave-one-site-out cross-validation strategy by repeating the between-group comparisons on the data, excluding one site at a time. Second, some of the participants were younger than the age of 18, which may explain the between-group differences in brain development. Thus, we repeated the data analysis for adult participants only. Finally, we repeated the between-group comparisons with the mean framewise displacement as an additional covariate.
-These analyses were done mainly through re-arranging data or adding additional covariates to the statistical analysis. Thus, no further code is required. 
+## Validation
+We validated our results by considering several potential confounding factors. First, we used a leave-one-site-out cross-validation strategy to examine whether our findings were influenced by specific sites. This was implemented by repeating the between-group comparisons on the data, excluding one site at a time. Second, some of the participants were younger than 18 years, which might explain the between-group differences in brain development. Thus, we repeated the statistical analysis for only adult participants (1,002 patients with MDD and 1,034 HCs). Third, to further control for the effect of head motion on R-fMRI connectivity measures, we repeated the between-group comparisons with the mean framewise displacement as an additional covariate. Finally, the use of a joint embedding framework may increase the alignment of individual connectome gradient maps compared to the Procrustes rotation. Thus, we reperformed the alignment using joint embedding and then repeated the statistical analysis.
