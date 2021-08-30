@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 21 16:39:10 2021
+
+@author: mingr
+"""
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 20 20:26:03 2021
+
+@author: mingr
+"""
+from neurosynth.base.dataset import Dataset
+from neurosynth import decode
+import multiprocessing
+import os
+os.chdir(r'D:\Data\DIDA-MDD\gradient_analysis\analysis2\NeuroSynth')
+dataset = Dataset.load('dataset.pkl')
+terms = []
+with open("g3_z_pos.txt","r") as f:
+    for line in f:
+        terms.append(line.strip('\n'))
+decoder = decode.Decoder(dataset,features=terms)
+def do_something(x):       
+    id = '0000'+str(x) 
+    os.chdir(r'D:\Data\DIDA-MDD\gradient_analysis\analysis2\NeuroSynth\surr_g3_pos')
+    niiname = 'rsurr_g3_z_pos_'+id[-5:]+'.nii'
+    savename = 'rsurr_g3_z_pos_'+id[-5:]+'.txt'
+    decoder.decode(niiname, savename)
+
+if __name__ == '__main__':
+    items = [x for x in range(1,10001)]
+    p = multiprocessing.Pool(32)
+    p.map(do_something, items)
+    
