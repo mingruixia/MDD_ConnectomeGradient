@@ -1,5 +1,5 @@
 # MDD_ConnectomeGradient
-This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2021
+This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2021.
 Please check the paper for the latest description of data analysis.
 
 ## Overview
