@@ -1,9 +1,11 @@
 # MDD_ConnectomeGradient
-This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2020
+This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2021
+Please check the paper for the latest description of data analysis.
 
 ## Overview
 Content includes standalone software, source code, and demo data. Due to the large size of the analyzed data, we can only provide a small portion of the data needed for validating the code. 
-The project is structured into four parts corresponding to the major analyses in the article, including fMRI data preprocessing, gradient analysis, cognitive terms, gene expression association analysis. 
+The project is structured into four parts corresponding to the major analyses in the article, including gradient analysis, cognitive terms, and gene expression association analysis. 
+Due to size limitation, the script relavent files and data can be found in https://pan.bnu.edu.cn/l/qJlytC
 
 ## Toolboxes
 All custom code and toolboxes were tested on two 64-bit Windows 10 PCs (PC1: Intel Core i7-6700k, 64GB RAM; PC2 AMD Ryzen Threadripper 3970x, 256G RAM) with MATLAB R2019b, which were included below. 
@@ -40,13 +42,6 @@ Please use the “add path” method in MATLAB to add toolboxes and scripts. Thi
 ## Demo
 We strongly suggest reading the manual for each toolbox for detailed instructions on how to use them. Here, we provide a brief description of the data analysis in our paper. 
 
-### Data preprocessing
-We used SeeCAT and SPM to perform resting-state fMRI data preprocessing. SeeCAT is a GUI-based toolbox for resting-state fMRI data preprocessing, functional connectivity analysis, voxel-based degree calculation, and statistical analyses. 
-1. Arrange image files to have the same structure in the demo folder (FunImg for initial Nifti files).
-2. After installing SeeCAT and SPM in MATLAB, call the SeeCAT data preprocessing module by typing SeeCAT_PrepfMRI in the MATLAB command window.
-3. Locate the data path and start folder, select preprocess steps and click the run button in the GUI.
-4. The final output of preprocessed fMRI data in our analysis is stored in FunImgARWSDCFB (A for slice timing, R for realigning, W for normalization, S for smooth, D for detrending, C for covariate regression, F for filtering, and B for scrubbing). 
-
 ## Gradient analysis
 This part was primarily carried out using our custom script for MATLAB with some functions fulfilled by MICA diffusion_map_embedding (https://github.com/MICA-MNI/micaopen/tree/master/diffusion_map_embedding) and ComBatHarmonization (https://github.com/Jfortin1/ComBatHarmonization). Please see the comments in Script.m for details. The analysis details include:
 1. Downsample preprocessed fMRI data to a 4-mm isotropic resolution. The input for this step is the preprocessed fMRI data in the folder FunImgARWSDCFB
@@ -59,12 +54,10 @@ This part was primarily carried out using our custom script for MATLAB with some
 8. Generate group-averaged gradient maps for HC and MDD
 9. Estimate spatial correlation of the group-averaged map between HC and MDD for each gradient.
 
-Due to the limited upload data size available on Github, we cannot provide all the data in this analysis. The preprocessed data of one subject was provided for test matrix generation and gradient calculation (In the folder of the previous step). We also provided the global measures (i.e., explained variance, gradient range, and spatial variance, GlobalMetrics.sav), final gradient maps of all subjects, and the displacement maps of patients with MDD (check DownloadForGradientMaps.txt for download link). The statistical analysis for global metrics was done by using SPSS and that for gradient maps was done by SeeCAT (call SeeCAT_Stat and SeeCAT_Viewer in MATLAB), respectively. Both tools are GUI-based. 
-
 ## Cognitive terms
 We used Neurosynth (https://neurosynth.org/) to assess the topic terms associated with the alterations in the connectome gradient in MDD. 
 1. The thresholded Z-maps derived from the between-group comparisons for each gradient were first divided into MDD-positive and MDD-negative maps (see Z-maps in demo data). 
-2. The Z-maps were then uploaded to Neurovault and analyzed using the “decoder” function of the Neurosynth website. 
+2. The Z-maps were then analyzed using the “decoder” function of the Neurosynth python code. 
 3. For each of the maps, the noncognitive terms (e.g., anatomical and demographic terms) were removed and the top 30 cognitive terms were selected. 
 4. The cognitive terms were visualized on a word-cloud plot with the font size scaled according to their correlation with corresponding meta-analytic maps generated by Neurosynth.
 
