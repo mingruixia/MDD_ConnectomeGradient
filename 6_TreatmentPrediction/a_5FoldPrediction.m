@@ -3,7 +3,7 @@ script_dir = 'D:\SynologyDrive\ds1618+\SynologyDrive\Projects\2019_MDD_gradient\
 figure_dir = 'D:\SynologyDrive\ds1618+\SynologyDrive\Projects\2019_MDD_gradient\5.Figures\ForRevision1\';
 
 %% SVR using g1 map
-clinicinfo = load([data_dir, 'Treatment_Prediction\clinicinfo.txt');
+clinicinfo = load([data_dir, 'Treatment_Prediction\clinicinfo.txt']);
 maskfile = [script_dir,'Reslice_group_mask.nii'];
 hdr = spm_vol(maskfile);
 vol = spm_read_vols(hdr);
@@ -33,9 +33,9 @@ corr_res = corr(score_predicted,clinicinfo(id,6));
 
 %% permutation test
 per_corr = zeros(1000,1);
-Covariates = Cov{1};
-FoldQuantity = n_fold(1);
-Pre_Method = pMethod{1};
+Covariates = [];
+FoldQuantity = 5;
+Pre_Method = 'Normalize';
 C_Range = power(2, -5:10);
 Weight_Flag = 1;
 Permutation_Flag = 1;
@@ -45,7 +45,7 @@ parfor i = 1:1000
     id = cell2mat(Prediction.Origin_ID);
     per_corr(i) = corr(a,clinicinfo(id,6));
 end
-p = length(find(per_corr>corr_res));
+p = length(find(per_corr>corr_res))/1000;
 
 %% Draw figures for correlations
 close all
@@ -114,3 +114,66 @@ for i = 1:8
     weight_mod(i) = sum(abs_w_Brain(ind_mod==i));
 end
 ratio_mod = weight_mod / sum(weight_mod);
+
+%% SVR using FCS map
+clinicinfo = load([data_dir, 'Treatment_Prediction\clinicinfo.txt']);
+maskfile = [script_dir,'Reslice_group_mask.nii'];
+hdr = spm_vol(maskfile);
+vol = spm_read_vols(hdr);
+ind = find(vol);
+
+cd([data_dir,'Treatment_Prediction\CpLpFCS\weighted'])
+list = dir('*.nii');
+Subjects_Data = zeros(length(ind),20);
+for i = 1:length(list)
+    hdr_fcs = spm_vol(list(i).name);
+    vol_fcs = spm_read_vols(hdr_fcs);
+    Subjects_Data(:,i) = vol_fcs(ind);
+end
+
+Subjects_Scores = clinicinfo(:,6);
+Covariates = [];
+FoldQuantity = 5;
+Pre_Method = 'Normalize';
+C_Range = power(2, -5:10);
+Weight_Flag = 1;
+Permutation_Flag = 0;
+ResultantFolder = [data_dir,'Treatment_Prediction\CpLpFCS\SVR'];
+Prediction = SVR_NFolds_Sort_CSelect(Subjects_Data', Subjects_Scores', Covariates, FoldQuantity, Pre_Method, C_Range, Weight_Flag, Permutation_Flag, ResultantFolder);
+score_predicted = cell2mat(Prediction.Score');
+id = cell2mat(Prediction.Origin_ID);
+corr_res = corr(score_predicted,clinicinfo(id,6));
+
+%% permutation test
+per_corr = zeros(1000,1);
+Covariates = [];
+FoldQuantity = 5;
+Pre_Method = 'Normalize';
+C_Range = power(2, -5:10);
+Weight_Flag = 1;
+Permutation_Flag = 1;
+parfor i = 1:1000
+    Prediction = SVR_NFolds_Sort_CSelect(Subjects_Data', Subjects_Scores', Covariates, FoldQuantity, Pre_Method, C_Range, Weight_Flag, Permutation_Flag);
+    a = cell2mat(Prediction.Score');
+    id = cell2mat(Prediction.Origin_ID);
+    per_corr(i) = corr(a,clinicinfo(id,6));
+end
+p = length(find(per_corr>corr_res))/1000;
+
+%% correlation between Cp/Lp and treatment outcomes
+Cp_all = zeros(20,1);
+cd([data_dir,'Treatment_Prediction\CpLpFCS\weighted'])
+list = dir('*cp.txt');
+for i = 1:length(list)
+    Cp_all(i) = load(list(i).name);
+end
+[r,p] = corr(Cp_all,clinicinfo(:,6))
+
+Lp_all = zeros(20,1);
+cd([data_dir,'Treatment_Prediction\CpLpFCS\weighted'])
+list = dir('*lp.txt');
+for i = 1:length(list)
+    Lp_all(i) = load(list(i).name);
+end
+[r,p] = corr(Lp_all,clinicinfo(:,6))
+
