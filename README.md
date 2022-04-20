@@ -1,11 +1,11 @@
 # MDD_ConnectomeGradient
-This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome Gradient Dysfunction in Major Depression and Its Association with Gene Expression Profiles " by Xia et al. 2021.
+This repository provides core code and relevant toolboxes for data analysis in the article entitled "Connectome gradient dysfunction in major depression and it association with gene expression profiles and treatmen outcomes "Xia et al. Molecular Psychiatry 2022
 Please check the paper for the latest description of data analysis.
 
 ## Overview
 Content includes standalone software, source code, and demo data. Due to the large size of the analyzed data, we can only provide a small portion of the data needed for validating the code. 
 The project is structured into four parts corresponding to the major analyses in the article, including gradient analysis, cognitive terms, and gene expression association analysis. 
-Due to size limitation, the script relavent files and data can be found in https://pan.bnu.edu.cn/l/qJlytC
+Due to size limitation, the script relavent files and data can be found in https://pan.bnu.edu.cn/l/YFiIwE
 
 ## Toolboxes
 All custom code and toolboxes were tested on two 64-bit Windows 10 PCs (PC1: Intel Core i7-6700k, 64GB RAM; PC2 AMD Ryzen Threadripper 3970x, 256G RAM) with MATLAB R2019b, which were included below. 
